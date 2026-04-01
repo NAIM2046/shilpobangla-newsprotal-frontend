@@ -2,27 +2,13 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock, Eye, Share2, Tag as TagIcon, ChevronRight } from "lucide-react";
+import { getNewsDetails } from "@/actions/news.actions";
 type Props = {
   params: Promise<{ slug: string }>;
 };
 // ==========================================
 // 1. Fetch API Data Function
 // ==========================================
-async function getNewsDetails(slug: string) {
-  // আপনার ব্যাকএন্ড URL অনুযায়ী পরিবর্তন করে নেবেন
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/news/details/${slug}`,
-    {
-      next: { revalidate: 60 }, // প্রতি ৬০ সেকেন্ডে ক্যাশ রিভ্যালিডেট হবে
-    },
-  );
-
-  if (!res.ok) {
-    return null;
-  }
-  const result = await res.json();
-  return result.data; // আপনার sendResponse এর data অবজেক্ট
-}
 
 // ==========================================
 // 2. Dynamic SEO Metadata Generation
