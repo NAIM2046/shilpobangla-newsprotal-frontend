@@ -5,7 +5,7 @@ import AdBanner, { AdData } from "@/components/shared/AdBanner";
 import { NewsItem } from "@/types/news.type";
 
 // ========================
-// ডামি বিজ্ঞাপন ডেটা (ওপরের এবং নিচের ব্যানার)
+// ডামি বিজ্ঞাপন ডেটা
 // ========================
 const mockTopAd: AdData = {
   isActive: true,
@@ -27,10 +27,10 @@ const mockBottomAd: AdData = {
 // Reusable Components
 // ========================
 
-// ছবির ওপর টেক্সটসহ কার্ড (টপ নিউজের জন্য)
+// 🌟 ১. টপ নিউজ কার্ড (sizes যুক্ত করা হলো)
 const TopNewsCard = ({ news }: { news: NewsItem }) => (
   <Link
-    href={`/news/${news.slug}`} // 🌟 id এর বদলে slug
+    href={`/news/${news.slug}`}
     className="block relative w-full aspect-[4/3] group overflow-hidden bg-gray-200"
   >
     <Image
@@ -38,6 +38,8 @@ const TopNewsCard = ({ news }: { news: NewsItem }) => (
       alt={news.title}
       fill
       className="object-cover transition-transform duration-500 group-hover:scale-105"
+      // sizes অ্যাড করা হলো পারফরম্যান্স ওয়ার্নিং সরানোর জন্য
+      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
     <div className="absolute bottom-0 left-0 p-3 w-full">
@@ -48,14 +50,20 @@ const TopNewsCard = ({ news }: { news: NewsItem }) => (
   </Link>
 );
 
-// সাইডবারের ছোট লিস্ট আইটেম (থাম্বনেইল + টেক্সট)
+// 🌟 ২. সাইডবার লিস্ট আইটেম (fill বাদ দিয়ে নির্দিষ্ট width ও height দেওয়া হলো)
 const SidebarListItem = ({ news }: { news: NewsItem }) => (
   <Link
-    href={`/news/${news.slug}`} // 🌟 id এর বদলে slug
+    href={`/news/${news.slug}`}
     className="flex items-center gap-3 group border-b border-gray-100 last:border-0 pb-2 last:pb-0"
   >
-    <div className="relative w-12 h-8 flex-shrink-0 bg-gray-200 overflow-hidden">
-      <Image src={news.image} alt={news.title} fill className="object-cover" />
+    <div className="flex-shrink-0 bg-gray-200 overflow-hidden rounded">
+      <Image
+        src={news.image}
+        alt={news.title}
+        width={48} // w-12 = 48px
+        height={32} // h-8 = 32px
+        className="object-cover w-12 h-8"
+      />
     </div>
     <h3 className="text-[11px] md:text-xs font-medium text-gray-700 line-clamp-2 group-hover:text-red-600 transition-colors">
       {news.title}
@@ -64,7 +72,7 @@ const SidebarListItem = ({ news }: { news: NewsItem }) => (
 );
 
 // ========================
-// Props Interface (🌟 আপডেট করা হলো)
+// Props Interface
 // ========================
 interface TopNewsProps {
   topNews: NewsItem[];
@@ -85,34 +93,33 @@ export default function TopNewsSection({
   topAdData,
   bottomAdData,
 }: TopNewsProps) {
-  // সেফটি চেক: যদি কোনো ডেটাই না থাকে, তাহলে সেকশনটি রেন্ডার হবে না
   if (!topNews.length && !latestNews.length && !popularNews.length) return null;
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      {/* 🌟 ১. টপ নিউজের ওপরের বিজ্ঞাপন (Top Banner Ad) */}
+      {/* টপ নিউজের ওপরের বিজ্ঞাপন */}
       <div className="mb-6">
         <AdBanner variant="HOME_BANNER_WIDE" adData={topAdData || mockTopAd} />
       </div>
 
-      {/* ২. ফুল উইডথ কালো হেডার */}
+      {/* ফুল উইডথ হেডার */}
       <div className="mb-6 border-b border-[#0f4c81] pb-2">
         <h2 className="text-xl md:text-2xl font-bold text-[#0f4c81] pl-3 border-l-[4px] border-[#0f4c81] leading-none">
           টপ নিউজ
         </h2>
       </div>
 
-      {/* ৩. মেইন গ্রিড লেআউট */}
+      {/* মেইন গ্রিড লেআউট */}
       <div className="mb-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-          {/* বাম দিকের ৪ কলাম: ৮টি কার্ডের গ্রিড */}
+          {/* বাম দিকের ৪ কলাম */}
           <div className="lg:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4">
             {topNews.map((news) => (
               <TopNewsCard key={news.id} news={news} />
             ))}
           </div>
 
-          {/* ডান দিকের ১ কলাম: সাইডবার (সর্বশেষ ও জনপ্রিয়) */}
+          {/* ডান দিকের ১ কলাম: সাইডবার */}
           <div className="lg:col-span-1 flex flex-col gap-6">
             {/* সর্বশেষ খবর */}
             {latestNews.length > 0 && (
@@ -145,7 +152,7 @@ export default function TopNewsSection({
         </div>
       </div>
 
-      {/* 🌟 ৪. টপ নিউজের নিচের বিজ্ঞাপন (Bottom Banner Ad) */}
+      {/* টপ নিউজের নিচের বিজ্ঞাপন */}
       <div>
         <AdBanner
           variant="HOME_BANNER_WIDE"

@@ -2,14 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { PlayCircle } from "lucide-react";
 import AdBanner, { AdData } from "@/components/shared/AdBanner";
-import { NewsItem } from "@/types/news.type"; // আপনার পাথ অনুযায়ী ঠিক রাখবেন
-// VideoItem টাইপটি যদি types এ থাকে তবে ইমপোর্ট করতে পারেন, নাহলে নিচে ইন্টারফেসে ডিফাইন করা আছে
+import { NewsItem } from "@/types/news.type";
 
 // ==========================================
 // ডামি ডেটা
 // ==========================================
-// 🌟 হার্ডকোডেড ইউটিউব লিস্ট মুছে ফেলা হয়েছে!
-
 const mockHeroAd: AdData = {
   isActive: true,
   adType: "IMAGE",
@@ -29,11 +26,11 @@ const ImageOverlayCard = ({
   news: NewsItem;
   isLead?: boolean;
 }) => {
-  if (!news) return null; // সেফটি চেক
+  if (!news) return null;
 
   return (
     <Link
-      href={`/news/${news.slug}`} // 🌟 id এর বদলে slug ব্যবহার করা হলো
+      href={`/news/${news.slug}`}
       className="block relative w-full h-full group overflow-hidden bg-gray-200"
     >
       <Image
@@ -41,6 +38,12 @@ const ImageOverlayCard = ({
         alt={news.title}
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-105"
+        // 🌟 sizes যুক্ত করা হলো
+        sizes={
+          isLead
+            ? "(max-width: 768px) 100vw, 50vw"
+            : "(max-width: 768px) 100vw, 25vw"
+        }
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
       <div className="absolute bottom-0 left-0 p-3 md:p-4 w-full">
@@ -71,19 +74,17 @@ interface HeroSectionProps {
       slug: string;
       youtubeUrl: string;
       videoId: string;
-      thumbnailUrl: string; // 🌟 ব্যাকএন্ডের সাথে মিল রেখে thumbnailUrl করা হলো
+      thumbnailUrl: string;
     }[];
   };
   adData?: AdData | null;
 }
 
 export default function HeroSection({ heroData, adData }: HeroSectionProps) {
-  // যদি API থেকে ডেটা না আসে তবে সেকশনটি রেন্ডার হবে না
   if (!heroData) return null;
 
   const { leadNews, sideNews, opinions, youtube } = heroData;
 
-  // sideNews অ্যারে থেকে খবরগুলো আলাদা করে নিচ্ছি
   const topLeftNews = sideNews[0];
   const bottomCenterNews1 = sideNews[1];
   const bottomCenterNews2 = sideNews[2];
@@ -95,17 +96,14 @@ export default function HeroSection({ heroData, adData }: HeroSectionProps) {
             ১ম সারি (Top Row)
         ======================= */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-auto md:h-[300px] lg:h-[350px]">
-          {/* ১. বাম দিকের খবর (1 Col) */}
           <div className="h-[200px] md:h-full">
             {topLeftNews && <ImageOverlayCard news={topLeftNews} />}
           </div>
 
-          {/* ২. মাঝের বড় লিড নিউজ (2 Cols) */}
           <div className="h-[250px] md:h-full md:col-span-2">
             {leadNews && <ImageOverlayCard news={leadNews} isLead={true} />}
           </div>
 
-          {/* ৩. ডান দিকের বিজ্ঞাপন (1 Col) */}
           <div className="hidden md:block h-full w-full">
             <AdBanner variant="HERO_RIGHT_TALL" adData={adData || mockHeroAd} />
           </div>
@@ -115,7 +113,7 @@ export default function HeroSection({ heroData, adData }: HeroSectionProps) {
             ২য় সারি (Bottom Row)
         ======================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-auto lg:h-[280px]">
-          {/* ১. ইউটিউব সেকশন (1 Col) */}
+          {/* ১. ইউটিউব সেকশন */}
           <div className="border bg-white flex flex-col h-full">
             <div className="bg-red-600 text-white text-center py-2 font-bold text-lg">
               Youtube
@@ -124,15 +122,17 @@ export default function HeroSection({ heroData, adData }: HeroSectionProps) {
               {youtube?.map((item) => (
                 <Link
                   key={item.id}
-                  href={item.youtubeUrl} // 🌟 id এর বদলে slug করা হলো এস.ই.ও এর জন্য
+                  href={item.youtubeUrl}
                   className="flex items-center gap-3 group"
                 >
-                  <div className="relative w-20 h-12 flex-shrink-0 bg-gray-200">
+                  {/* 🌟 fill বাদ দিয়ে width ও height দেওয়া হলো */}
+                  <div className="relative flex-shrink-0 bg-gray-200">
                     <Image
-                      src={item.thumbnailUrl} // 🌟 ব্যাকএন্ডের ফিল্ড thumbnailUrl ব্যবহার করা হলো
+                      src={item.thumbnailUrl}
                       alt={item.title}
-                      fill
-                      className="object-cover"
+                      width={80} // w-20
+                      height={48} // h-12
+                      className="object-cover w-20 h-12"
                     />
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                       <PlayCircle className="w-5 h-5 text-white opacity-80 group-hover:opacity-100" />
@@ -146,17 +146,17 @@ export default function HeroSection({ heroData, adData }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* ২. মাঝের বাম দিকের খবর (1 Col) */}
+          {/* ২. মাঝের বাম দিকের খবর */}
           <div className="h-[200px] lg:h-full">
             {bottomCenterNews1 && <ImageOverlayCard news={bottomCenterNews1} />}
           </div>
 
-          {/* ৩. মাঝের ডান দিকের খবর (1 Col) */}
+          {/* ৩. মাঝের ডান দিকের খবর */}
           <div className="h-[200px] lg:h-full">
             {bottomCenterNews2 && <ImageOverlayCard news={bottomCenterNews2} />}
           </div>
 
-          {/* ৪. মতামত সেকশন (1 Col) */}
+          {/* ৪. মতামত সেকশন */}
           <div className="border bg-white flex flex-col h-full">
             <div className="bg-[#1e1e1e] text-white text-center py-2 font-bold text-lg">
               মতামত
@@ -168,12 +168,14 @@ export default function HeroSection({ heroData, adData }: HeroSectionProps) {
                   href={`/opinion/${item.slug}`}
                   className="flex gap-3 group last:border-0 pb-3 last:pb-0"
                 >
-                  <div className="relative w-16 h-16 flex-shrink-0 bg-gray-200 rounded-full overflow-hidden">
+                  {/* 🌟 fill বাদ দিয়ে width ও height দেওয়া হলো */}
+                  <div className="flex-shrink-0 bg-gray-200 rounded-full overflow-hidden">
                     <Image
                       src={item.image}
                       alt={item.title}
-                      fill
-                      className="object-cover"
+                      width={64} // w-16
+                      height={64} // h-16
+                      className="object-cover w-16 h-16"
                     />
                   </div>
                   <div className="flex items-center">

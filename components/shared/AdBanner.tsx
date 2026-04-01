@@ -60,6 +60,8 @@ export default function AdBanner({
           alt="Advertisement"
           fill
           className="object-cover"
+          // 🌟 sizes যুক্ত করা হলো যাতে পারফরম্যান্স ওয়ার্নিং না আসে
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {/* 'বিজ্ঞাপন' লেখা ব্যাজ */}
         <div className="absolute top-0 right-0 bg-white/90 px-2 py-0.5 text-[10px] font-medium text-slate-500 rounded-bl border-l border-b border-slate-200 z-10">
