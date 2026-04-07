@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaFacebookF, FaYoutube, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaYoutube, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 // @ts-ignore
@@ -17,7 +17,7 @@ const socialPlatforms = [
     icon: FaFacebookF,
     bg: "bg-[#1877F2]",
     shadow: "hover:shadow-[0_4px_14px_0_rgba(24,119,242,0.5)]",
-    href: "https://facebook.com",
+    href: "https://web.facebook.com/DoinikShilpoBangla",
   },
   {
     id: "yt",
@@ -25,7 +25,7 @@ const socialPlatforms = [
     icon: FaYoutube,
     bg: "bg-[#FF0000]",
     shadow: "hover:shadow-[0_4px_14px_0_rgba(255,0,0,0.5)]",
-    href: "https://youtube.com",
+    href: "https://www.youtube.com/@ShilpaBangla",
   },
   {
     id: "x",
@@ -34,15 +34,15 @@ const socialPlatforms = [
     bg: "bg-[#0F0E0A]",
     shadow: "hover:shadow-[0_4px_14px_0_rgba(15,14,10,0.4)]",
     href: "https://twitter.com",
-  },
+  }, 
   {
-    id: "in",
-    name: "LinkedIn",
-    icon: FaLinkedinIn,
-    bg: "bg-[#0A66C2]",
-    shadow: "hover:shadow-[0_4px_14px_0_rgba(10,102,194,0.5)]",
-    href: "https://linkedin.com",
-  },
+    id: "instagram",
+    name: "Instagram",
+    icon: FaInstagram,
+    bg: "bg-[#E1306C]",
+    shadow: "hover:shadow-[0_4px_14px_0_rgba(225,48,108,0.5)]",
+    href: "https://www.instagram.com/dailyshilpobangla",
+  }, 
 ];
 
 const Header = () => {
@@ -123,9 +123,9 @@ const Header = () => {
                 src="/logo.png"
                 alt="দৈনিক শিল্পবাংলা লোগো"
                 width={290}
-                height={90}
+                height={95}
                 priority
-                className="object-contain h-14 sm:h-16 md:h-[72px] lg:h-[80px] w-auto"
+                className="object-contain h-16 sm:h-16 md:h-[72px] lg:h-[80px] w-auto"
               />
             </Link>
           </div>

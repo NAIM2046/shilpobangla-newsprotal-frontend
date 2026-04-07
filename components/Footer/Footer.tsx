@@ -12,12 +12,12 @@ import { FaXTwitter } from "react-icons/fa6";
 import { MdLocationOn, MdPhone, MdEmail } from "react-icons/md";
 
 const quickLinks = [
-  { name: "সারাদেশ", href: "/category/saradesh" },
-  { name: "রাজনীতি", href: "/category/rajniti" },
-  { name: "বাণিজ্য", href: "/category/banijjo" },
-  { name: "খেলা", href: "/category/khela" },
-  { name: "বিনোদন", href: "/category/binodon" },
-  { name: "প্রযুক্তি", href: "/category/projukti" },
+  { name: "সারাদেশ", href: "/category/সারাদেশ" },
+  { name: "রাজনীতি", href: "/category/রাজনীতি" },
+  { name: "বাণিজ্য", href: "/category/বাণিজ্য" },
+  { name: "খেলা", href: "/category/খেলা" },
+  { name: "বিনোদন", href: "/category/বিনোদন" },
+  { name: "প্রযুক্তি", href: "/category/প্রযুক্তি" },
 ];
 
 const importantLinks = [
@@ -25,8 +25,7 @@ const importantLinks = [
   { name: "গোপনীয়তা নীতি", href: "/privacy-policy" },
   { name: "শর্তাবলী", href: "/terms-and-conditions" },
   { name: "বিজ্ঞাপন", href: "/advertise" },
-  { name: "সাইটম্যাপ", href: "/sitemap" },
-  { name: "আরএসএস", href: "/rss" },
+
 ];
 
 const socialPlatforms = [
@@ -35,14 +34,14 @@ const socialPlatforms = [
     name: "Facebook",
     icon: FaFacebookF,
     bg: "bg-[#1877F2]",
-    href: "https://facebook.com",
+    href: "https://web.facebook.com/DoinikShilpoBangla",
   },
   {
     id: "yt",
     name: "YouTube",
     icon: FaYoutube,
     bg: "bg-[#FF0000]",
-    href: "https://youtube.com",
+    href: "https://www.youtube.com/@ShilpaBangla",
   },
   {
     id: "x",
@@ -52,18 +51,11 @@ const socialPlatforms = [
     href: "https://twitter.com",
   },
   {
-    id: "in",
-    name: "LinkedIn",
-    icon: FaLinkedinIn,
-    bg: "bg-[#0A66C2]",
-    href: "https://linkedin.com",
-  },
-  {
     id: "ig",
     name: "Instagram",
     icon: FaInstagram,
     bg: "bg-[#E1306C]",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/p/DTms6IQk3VQ/",
   },
 ];
 
@@ -151,7 +143,8 @@ const Footer = () => {
               <div className="flex items-start gap-2.5">
                 <MdLocationOn className="w-4 h-4 text-[#C0392B] mt-0.5 flex-shrink-0" />
                 <p className="text-black text-sm leading-relaxed">
-                  ঢাকা ১০০০, বাংলাদেশ
+               আশুলিয়া, সাভার , ঢাকা-১৩৪৪
+                              
                 </p>
               </div>
 
@@ -164,19 +157,19 @@ const Footer = () => {
                   <div className="flex items-center gap-2.5">
                     <MdPhone className="w-4 h-4 text-[#C0392B] flex-shrink-0" />
                     <a
-                      href="tel:+8801912345678"
+                      href="tel:+8801339540317"
                       className="text-black text-sm hover:text-[#C0392B] transition-colors"
                     >
-                      +৮৮০ ১৯xxxxxxxx
+                      01339-540317
                     </a>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <MdEmail className="w-4 h-4 text-[#C0392B] flex-shrink-0" />
                     <a
-                      href="mailto:newsdesk@doinikshilpo.com"
+                      href="mailto:doinikshilpobangla@gmail.com"
                       className="text-black text-sm hover:text-[#C0392B] transition-colors"
                     >
-                      newsdesk@doinikshilpo.com
+                      doinikshilpobangla@gmail.com
                     </a>
                   </div>
                 </div>
@@ -191,19 +184,19 @@ const Footer = () => {
                   <div className="flex items-center gap-2.5">
                     <MdPhone className="w-4 h-4 text-[#C0392B] flex-shrink-0" />
                     <a
-                      href="tel:+8801912345678"
+                      href="tel:+8801339540317"
                       className="text-black text-sm hover:text-[#C0392B] transition-colors"
                     >
-                      +৮৮০ ১৯xxxxxxxx
+                     +8801339540317
                     </a>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <MdEmail className="w-4 h-4 text-[#C0392B] flex-shrink-0" />
                     <a
-                      href="mailto:marketing@doinikshilpo.com"
+                      href="mailto:doinikshilpobangla@gmail.com"
                       className="text-black text-sm hover:text-[#C0392B] transition-colors"
                     >
-                      marketing@doinikshilpo.com
+                       doinikshilpobangla@gmail.com
                     </a>
                   </div>
                 </div>
