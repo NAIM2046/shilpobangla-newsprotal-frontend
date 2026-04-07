@@ -5,9 +5,10 @@ import "./globals.css";
 
 import Header from "@/components/shared/Header";
 import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/footer";
+
 import LiveUpdate from "@/components/shared/LiveUpdate";
 import { getCategories } from "@/actions/category.actions";
+import Footer from "@/components/Footer/Footer";
 
 // ... অন্যান্য ফন্ট
 
@@ -51,7 +52,6 @@ export default async function RootLayout({
         </div>
 
         <main className="flex-grow relative z-10">{children}</main>
-
         <Footer />
       </body>
     </html>

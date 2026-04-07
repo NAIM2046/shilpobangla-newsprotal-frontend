@@ -11,52 +11,55 @@ interface NavbarProps {
   categories: Category[];
 }
 
-// 🌟 ১. ডিফল্ট ভ্যালু হিসেবে একটি খালি অ্যারে [] সেট করে দেওয়া হলো
 const Navbar = ({ categories = [] }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // 🌟 ২. সেফটি চেক: categories আসলেই Array কি না তা চেক করে slice করা হলো
   const visibleCategories = Array.isArray(categories)
     ? categories.slice(0, 8)
     : [];
 
   return (
     <>
-      <nav className="bg-black text-white sticky top-0 z-50 overflow-visible shadow-lg">
+      <nav className="bg-[#1a1a2e] text-white sticky top-0 z-40 overflow-visible print:hidden border-b border-white/10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-12 md:h-14 overflow-visible">
+          <div className="flex justify-between items-center h-11 md:h-12 overflow-visible">
+            {/* Mobile: hamburger */}
             <button
-              className="md:hidden p-2 hover:text-gray-300 transition"
+              className="md:hidden p-1.5 rounded-md hover:bg-white/10 transition-colors"
               onClick={() => setIsMenuOpen(true)}
+              aria-label="মেনু খুলুন"
             >
-              <Menu size={24} />
+              <Menu size={22} />
             </button>
 
-            <div className="hidden md:flex items-center justify-center flex-1 space-x-1 lg:space-x-3 overflow-visible">
-              {/* 🌟 map চালানোর আগেও visibleCategories নিশ্চিত করা হলো */}
+            {/* Desktop: nav links */}
+            <div className="hidden md:flex items-center justify-center flex-1 gap-0.5 overflow-visible">
               {visibleCategories.map((category) => (
                 <NavLink key={category.id} category={category} />
               ))}
             </div>
 
-            <div className="flex items-center gap-2 md:gap-4">
+            {/* Right actions */}
+            <div className="flex items-center gap-1">
               <button
-                className="p-2 hover:text-gray-300 transition"
-                aria-label="Search"
+                className="p-2 rounded-md hover:bg-white/10 transition-colors"
+                aria-label="অনুসন্ধান"
               >
-                <Search size={20} />
+                <Search size={18} />
               </button>
-
               <button
-                className="hidden md:flex items-center gap-2 p-2 hover:text-red-500 transition cursor-pointer"
+                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold tracking-wide text-white hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                 onClick={() => setIsMenuOpen(true)}
-                title="সব ক্যাটাগরি দেখুন"
+                title="সব ক্যাটাগরি"
               >
-                <Menu size={24} />
+                <Menu size={20} />
               </button>
             </div>
           </div>
         </div>
+
+        {/* Bottom accent */}
+        <div className="h-[2px] bg-gradient-to-r from-transparent via-[#C0392B] to-transparent opacity-80" />
       </nav>
 
       <SidebarMenu

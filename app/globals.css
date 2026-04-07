@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 🌟 এখানে আপনার কাঙ্ক্ষিত ব্যাকগ্রাউন্ড কালারটি দিন */
+  --background: #F7F5F0; 
+  /* 🌟 গাঢ় ব্যাকগ্রাউন্ডের জন্য টেক্সট কালার সাদা/হালকা রাখা ভালো */
+  --foreground: #f8fafc; 
 }
 
 @theme inline {
@@ -14,7 +16,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    /* ডার্ক মোডের জন্যও চাইলে সেম কালার বা একটু গাঢ় ভার্সন রাখতে পারেন */
+    --background: #F7F5F0; 
     --foreground: #ededed;
   }
 }
@@ -22,8 +25,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* আপনি যেহেতু layout.tsx এ Noto Serif ব্যবহার করছেন, তাই এখান থেকে ফন্ট সরাতে পারেন অথবা এভাবেই রাখতে পারেন */
 }
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -38,7 +42,7 @@ body {
     animation: marquee 40s linear infinite;
   }
   
-  /* মাউস হোভার করলে স্ক্রলিং যেন থেমে যায় */
+  /* মাউস হোভার করলে স্ক্রলিং যেন থেমে যায় */
   .animate-marquee:hover {
     animation-play-state: paused;
   }
@@ -50,5 +54,18 @@ body {
     100% {
       transform: translateX(-100%);
     }
+  }
+}
+@media print {
+  
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* ছবি বা প্যারাগ্রাফ যেন দুই কাগজের মাঝখানে অর্ধেক-অর্ধেক কেটে না যায় */
+  img, p, h1, h2, h3, article, blockquote {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }

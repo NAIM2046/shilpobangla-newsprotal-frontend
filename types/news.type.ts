@@ -6,7 +6,7 @@ export interface NewsItem {
   image: string;
   slug: string;
 }
-interface youtubeItem {
+interface YoutubeItem {
   id: string;
   title: string;
   slug: string;
@@ -14,28 +14,37 @@ interface youtubeItem {
   videoId: string;
   thumbnailUrl: string;
 }
-
+export type OpinionItem = {
+  id: string;
+  title: string;
+  image: string;
+  slug: string;
+  author: {
+    name: string;
+    avatar_url: string | null;
+  };
+};
 export interface HomePageData {
   heroSection: {
     leadNews: NewsItem;
     sideNews: NewsItem[];
-    opinions: NewsItem[];
-    youtube: youtubeItem[];
+    opinions: OpinionItem[];
+    youtube: YoutubeItem[];
   };
   topNews: NewsItem[];
   latestNews: NewsItem[];
   popularNews: NewsItem[];
   
-  // 🌟 আগের ডিজাইনের ক্যাটাগরির জন্য (পাশাপাশি লিস্ট)
+ 
   gridCategories: {
     [key: string]: NewsItem[];
   };
   
-  // 🌟 নতুন ডিজাইনের ক্যাটাগরির জন্য (কালো হেডার, ১টি বড় ও ২টি ছোট খবর)
+ 
   blockCategories: {
     [key: string]: NewsItem[];
   };
   
-  // 🌟 ফটো গ্যালারির জন্য
+ 
   photoGallery: NewsItem[];
 }

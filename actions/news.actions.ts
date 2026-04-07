@@ -1,4 +1,4 @@
-"user server"
+"use server"
 export async function getNewsDetails(slug: string) {
   try {
     const res = await fetch(

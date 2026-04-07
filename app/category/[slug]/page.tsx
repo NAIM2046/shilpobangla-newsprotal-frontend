@@ -1,168 +1,131 @@
+// src/app/category/[slug]/page.tsx
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+import NewsGrid from "@/components/category/NewsGrid";
+import { getcategoryNews } from "@/actions/categorynews.actions";
 
-// ==========================================
-// ডামি ডেটা (পরে ব্যাকএন্ড থেকে আসবে)
-// ==========================================
-const mockCategoryData = {
-  name: "জাতীয়",
-  subCategories: ["রাজধানীর খবর", "জাতীয় সংসদ", "চট্টগ্রামের খবর"],
-  leadNews: {
-    id: "lead-1",
-    slug: "depo-oil-scandal",
-    title: "ডিপো থেকে বরাদ্দকৃত তেল বাইরে বিক্রির অভিযোগ, সরবরাহ বন্ধ",
-    excerpt:
-      "কৃষকদের জন্য বরাদ্দ ৩ হাজার লিটার ডিজেল বাইরে বিক্রি করায় বাগেরহাটের অগ্রণী ট্রেডার্সে তেল প্রদান সাময়িকভাবে বন্ধ করে দিয়েছে...",
-    image:
-      "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?q=80&w=1470&auto=format&fit=crop",
-  },
-  newsList: [
-    {
-      id: "news-1",
-      slug: "chittagong-seminar",
-      title:
-        "ওজিএসবি চট্টগ্রামের সেমিনারে বিশেষজ্ঞদের সতর্কতা/নারীদের অদৃশ্য যন্ত্রণার দুই রোগ, দেরিতে শনাক্তে বাড়ছে উদ্বেগ",
-      image:
-        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop",
-    },
-    {
-      id: "news-2",
-      slug: "july-sonod",
-      title:
-        "একই বিষয়ে দুই প্রস্তাব, জুলাই সনদ নিয়ে সংসদে ভিন্নমত স্পিকার ও মন্ত্রী",
-      image:
-        "https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1469&auto=format&fit=crop",
-    },
-    {
-      id: "news-3",
-      slug: "dc-pm-meeting",
-      title: "নবনির্বাচিত জেলা প্রশাসকদের সঙ্গে প্রধানমন্ত্রীর বৈঠক",
-      image:
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1374&auto=format&fit=crop",
-    },
-    {
-      id: "news-4",
-      slug: "bgb-oil",
-      title:
-        "‘তেল নেই’ বলে পাম্প বন্ধ, ভেতরে ৩৪ হাজার লিটার তেল জব্দ করলো বিজিবি",
-      image:
-        "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=1470&auto=format&fit=crop",
-    },
-    {
-      id: "news-5",
-      slug: "dig-arrest",
-      title: "সাবেক ডিআইজি আবদুল জলিল গ্রেপ্তার",
-      image:
-        "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1512&auto=format&fit=crop",
-    },
-    {
-      id: "news-6",
-      slug: "police-fraud",
-      title:
-        "পুলিশ ও ঊর্ধ্বতন কর্মকর্তাদের ছবি ব্যবহার করে প্রতারণা, গ্রেপ্তার ১",
-      image:
-        "https://images.unsplash.com/photo-1555861496-faa3e8e7abea?q=80&w=1470&auto=format&fit=crop",
-    },
-  ],
-};
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const data = mockCategoryData;
+  const categoryData = await getcategoryNews(slug, 1);
+
+  if (!categoryData || !categoryData.category) {
+    return notFound();
+  }
+
+  const { category, newsList, meta } = categoryData;
+
+  const leadNews = newsList.length > 0 ? newsList[0] : null;
+  const remainingNews = newsList.length > 1 ? newsList.slice(1) : [];
 
   return (
-    <div className="bg-[#f4f6f8] min-h-screen py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 bg-white shadow-sm pb-10">
-        {/* =================================
-            ১. হেডার এবং সাব-ক্যাটাগরি
-        ================================= */}
-        <div className="pt-6 pb-2 border-b-2 border-gray-300 mb-6">
-          <h1 className="text-3xl font-bold text-blue-900 mb-3">{data.name}</h1>
-          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-gray-700">
-            {data.subCategories.map((sub, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <Link href="#" className="hover:text-red-600 transition-colors">
-                  {sub}
-                </Link>
-                {/* শেষের আইটেমের পর পাইপ (|) চিহ্ন দেখাবে না */}
-                {index < data.subCategories.length - 1 && (
-                  <span className="text-gray-400">|</span>
-                )}
-              </div>
-            ))}
+    <div className="bg-[#F7F5F0] min-h-screen">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 md:py-8">
+        {/* ── Category header ── */}
+        <div className="bg-white border border-[#E8E4DC] rounded-xl shadow-sm px-5 sm:px-6 pt-5 pb-4 mb-5">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-1.5 text-xs text-[#7A7465] font-medium uppercase tracking-wider mb-3">
+            <Link href="/" className="hover:text-[#C0392B] transition-colors">
+              হোম
+            </Link>
+            <ChevronRight className="w-3 h-3 text-[#B5AFA5]" />
+            <span className="text-[#C0392B]">{category.name}</span>
+          </nav>
+
+          {/* Title */}
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-1 h-7 bg-[#C0392B] rounded-full flex-shrink-0" />
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#0F0E0A] tracking-tight leading-none">
+              {category.name}
+            </h1>
           </div>
+
+          {/* Sub-categories */}
+          {category.children && category.children.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-[#F0EDE7]">
+              {category.children.map((sub: any) => (
+                <Link
+                  key={sub.id}
+                  href={`/category/${sub.slug}`}
+                  className="px-3 py-1 text-xs font-semibold text-[#4A4237] bg-[#F7F5F0] border border-[#E0DBD0] rounded-full hover:bg-[#C0392B] hover:text-white hover:border-[#C0392B] transition-all duration-200"
+                >
+                  {sub.name}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* =================================
-            ২. লিড নিউজ (বড় খবর)
-        ================================= */}
-        {data.leadNews && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-b-2 border-gray-200 pb-6 mb-6">
-            <div className="flex flex-col justify-center">
-              <Link href={`/news/${data.leadNews.slug}`}>
-                <h2 className="text-2xl md:text-3xl font-bold leading-snug mb-3 hover:text-red-600 transition-colors">
-                  {data.leadNews.title}
-                </h2>
+        {/* ── Lead news ── */}
+        {leadNews ? (
+          <div className="bg-white border border-[#E8E4DC] rounded-xl shadow-sm overflow-hidden mb-5">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* Image */}
+              <Link
+                href={`/news/${leadNews.slug}`}
+                className="relative block w-full h-[220px] sm:h-[280px] md:h-[320px] group overflow-hidden bg-[#1a1a2e]"
+              >
+                <Image
+                  src={leadNews.image || "/placeholder-news.jpg"}
+                  alt={leadNews.imageAlt || leadNews.title}
+                  fill
+                  priority
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent md:bg-none" />
+                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#C0392B] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom" />
               </Link>
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                {data.leadNews.excerpt}
-              </p>
+
+              {/* Text */}
+              <div className="flex flex-col justify-center px-5 sm:px-6 py-5 md:py-8">
+                {leadNews.category?.name && (
+                  <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#C0392B] mb-3">
+                    {leadNews.category.name}
+                  </span>
+                )}
+                <Link href={`/news/${leadNews.slug}`}>
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-[#0F0E0A] leading-snug hover:text-[#C0392B] transition-colors mb-3">
+                    {leadNews.title}
+                  </h2>
+                </Link>
+                {leadNews.excerpt && (
+                  <p className="text-[#4A4237] text-sm md:text-base leading-relaxed line-clamp-3">
+                    {leadNews.excerpt}
+                  </p>
+                )}
+                <Link
+                  href={`/news/${leadNews.slug}`}
+                  className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-[#C0392B] hover:text-[#96281B] transition-colors"
+                >
+                  বিস্তারিত পড়ুন
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
-            <Link
-              href={`/news/${data.leadNews.slug}`}
-              className="relative w-full h-[250px] md:h-[300px] border border-gray-200 p-1 group overflow-hidden"
-            >
-              <Image
-                src={data.leadNews.image}
-                alt={data.leadNews.title}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </Link>
+          </div>
+        ) : (
+          <div className="bg-white border border-[#E8E4DC] rounded-xl py-14 text-center text-[#7A7465] font-medium mb-5">
+            এই ক্যাটাগরিতে কোনো খবর পাওয়া যায়নি।
           </div>
         )}
 
-        {/* =================================
-            ৩. খবরের গ্রিড (২ কলাম)
-        ================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0">
-          {data.newsList.map((news) => (
-            <div
-              key={news.id}
-              className="flex gap-4 border-b border-gray-200 py-4 group"
-            >
-              {/* বাম দিকের টেক্সট */}
-              <div className="flex-1">
-                <Link href={`/news/${news.slug}`}>
-                  <h3 className="text-base md:text-lg font-semibold text-gray-800 leading-snug group-hover:text-red-600 transition-colors">
-                    {news.title}
-                  </h3>
-                </Link>
-              </div>
-
-              {/* ডান দিকের থাম্বনেইল */}
-              <Link
-                href={`/news/${news.slug}`}
-                className="relative w-[120px] h-[80px] md:w-[140px] md:h-[95px] flex-shrink-0 bg-gray-100"
-              >
-                <Image
-                  src={news.image}
-                  alt={news.title}
-                  fill
-                  className="object-cover"
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
-
-        {/* =================================
-            ৪. 'আরও দেখুন' বাটন
-        ================================= */}
-        <div className="flex justify-center mt-10">
-          <button className="bg-[#1a4b65] text-white px-8 py-2.5 font-bold rounded hover:bg-red-600 transition-colors duration-300">
-            আরও দেখুন
-          </button>
-        </div>
+        {/* ── News grid ── */}
+        {remainingNews.length > 0 && (
+          <div className="bg-white border border-[#E8E4DC] rounded-xl shadow-sm overflow-hidden px-4 sm:px-6 pt-5 pb-6">
+            <NewsGrid
+              initialNews={remainingNews}
+              slug={slug}
+              initialHasMore={meta.hasMore}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

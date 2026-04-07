@@ -4,63 +4,75 @@ import { Zap } from "lucide-react";
 import { getLiveUpdates } from "@/actions/live-update.actions";
 
 const LiveUpdate = async () => {
-  // 🌟 ব্যাকএন্ড থেকে ডাইনামিক ডেটা নিয়ে আসছি
   const updates = await getLiveUpdates();
-  console.log("Fetched live updates:", updates); // ডিবাগিং এর জন্য কনসোল লগ
+  console.log("Fetched live updates:", updates);
 
-  // যদি কোনো কারণে ডেটা না থাকে, তাহলে কম্পোনেন্ট রেন্ডার হবে না
   if (!updates || updates.length === 0) return null;
 
   return (
-    <div className="bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center h-10 md:h-12">
-          {/* 🌟 Left Badge: সর্বশেষ */}
-          <div className="flex items-center justify-center bg-red-600 text-white px-3 md:px-5 h-full relative z-10 shrink-0">
-            <Zap size={16} className="mr-1.5 animate-pulse hidden md:block" />
-            <span className="font-bangla font-semibold text-sm md:text-base tracking-wide whitespace-nowrap">
+    <div className="border-b border-[#E8E4DC] bg-white print:hidden">
+      <div className="max-w-7xl mx-auto sm:px-4 md:px-4 lg:px-4">
+        <div className="flex items-center h-10 md:h-11">
+          {/* ── Badge ── */}
+          <div className="relative flex items-center justify-center bg-[#C0392B] text-white px-3 md:px-5 h-full shrink-0 z-10">
+            <Zap
+              size={13}
+              className="mr-1.5 hidden md:block fill-white text-white animate-pulse"
+            />
+            <span className="font-semibold text-xs md:text-sm tracking-widest uppercase whitespace-nowrap">
               সর্বশেষ
             </span>
-            {/* একটু স্টাইলের জন্য ডানপাশে একটি অ্যারো শেইপ */}
-            <div className="absolute top-0 -right-3 w-0 h-0 border-t-[20px] md:border-t-[24px] border-t-transparent border-b-[20px] md:border-b-[24px] border-b-transparent border-l-[12px] border-l-red-600"></div>
+            {/* Arrow chevron */}
+            <div
+              className="absolute top-0 -right-[11px] w-0 h-0
+              border-t-[20px] md:border-t-[22px] border-t-transparent
+              border-b-[20px] md:border-b-[22px] border-b-transparent
+              border-l-[11px] border-l-[#C0392B]"
+            />
           </div>
 
-          {/* 🌟 Scrolling News Text */}
-          <div className="flex-1 overflow-hidden relative h-full flex items-center bg-gray-50 ml-3 md:ml-4">
+          {/* ── Scrolling ticker ── */}
+          <div className="flex-1 overflow-hidden relative h-full flex items-center ml-4 md:ml-5">
+            {/* Left fade mask */}
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-8 bg-gradient-to-r from-white to-transparent z-10" />
+            {/* Right fade mask */}
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white to-transparent z-10" />
+
             <div className="flex whitespace-nowrap animate-marquee">
-              {/* 🔹 প্রথম সেট নিউজ */}
+              {/* First set */}
               {updates.map((news, index) => (
                 <div key={news.id} className="flex items-center">
                   <Link
-                    // 🌟 slug এর বদলে link ব্যবহার করা হলো, null থাকলে '#' এ যাবে
                     href={news.link || "#"}
-                    className="font-bangla text-sm md:text-base text-gray-800 hover:text-red-600 transition-colors"
+                    className="text-sm md:text-[0.8125rem] text-[#2C2C2C] hover:text-[#C0392B] transition-colors duration-200 font-medium"
                   >
                     {news.title}
                   </Link>
-                  {/* দুটি নিউজের মাঝখানে একটি ডট বা সেপারেটর */}
                   {index !== updates.length - 1 && (
-                    <span className="mx-4 md:mx-6 text-red-500 font-bold">
-                      ▪
+                    <span className="mx-5 md:mx-7 text-[#C0392B] text-[10px] opacity-60">
+                      ◆
                     </span>
                   )}
                 </div>
               ))}
 
-              {/* 🔹 স্ক্রলিং গ্যাপ কমানোর জন্য ডেটাগুলো আরেকবার রিপিট করা হলো (Continuous Effect) */}
-              <span className="mx-4 md:mx-6 text-red-500 font-bold">▪</span>
+              {/* Separator between loops */}
+              <span className="mx-5 md:mx-7 text-[#C0392B] text-[10px] opacity-60">
+                ◆
+              </span>
 
+              {/* Repeated set for seamless loop */}
               {updates.map((news, index) => (
                 <div key={`repeat-${news.id}`} className="flex items-center">
                   <Link
                     href={news.link || "#"}
-                    className="font-bangla text-sm md:text-base text-gray-800 hover:text-red-600 transition-colors"
+                    className="text-sm md:text-[0.8125rem] text-[#2C2C2C] hover:text-[#C0392B] transition-colors duration-200 font-medium"
                   >
                     {news.title}
                   </Link>
                   {index !== updates.length - 1 && (
-                    <span className="mx-4 md:mx-6 text-red-500 font-bold">
-                      ▪
+                    <span className="mx-5 md:mx-7 text-[#C0392B] text-[10px] opacity-60">
+                      ◆
                     </span>
                   )}
                 </div>

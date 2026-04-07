@@ -1,3 +1,4 @@
+// src/components/shared/NavLink.tsx
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -26,18 +27,15 @@ const NavLink: React.FC<NavLinkProps> = ({ category }) => {
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 250);
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 220);
   };
 
-  // 🔹 No children
+  const linkBase =
+    "relative px-3 py-1 text-[15px]  tracking-wide whitespace-nowrap text-white hover:text-white transition-colors duration-150 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:w-0 after:bg-[#C0392B] after:transition-all after:duration-200 hover:after:w-4/5";
+
   if (!hasChildren) {
     return (
-      <Link
-        href={`/category/${category.slug}`}
-        className="px-3 py-1 font-bangla text-sm md:text-base whitespace-nowrap hover:text-gray-300 transition"
-      >
+      <Link href={`/category/${category.slug}`} className={linkBase}>
         {category.name}
       </Link>
     );
@@ -49,12 +47,12 @@ const NavLink: React.FC<NavLinkProps> = ({ category }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Parent */}
-      <button className="flex items-center gap-1.5 px-3 py-1 font-bangla text-sm md:text-base font-medium hover:text-gray-300 transition">
+      {/* Parent button */}
+      <button className={`flex items-center gap-1 ${linkBase}`}>
         {category.name}
         <ChevronDown
-          size={14}
-          className={`transition-transform duration-200 ${
+          size={13}
+          className={`mt-px text-white transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -62,14 +60,19 @@ const NavLink: React.FC<NavLinkProps> = ({ category }) => {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 pt-2 z-[999]">
-          <div className="bg-gray-950 text-white min-w-[220px] rounded-lg shadow-2xl py-2 border border-gray-800 animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute top-full left-0 pt-2.5 z-[999]">
+          {/* Invisible bridge so mouse doesn't leave the zone */}
+          <div className="absolute -top-2.5 left-0 right-0 h-2.5" />
+          <div className="bg-[#12111f] text-white min-w-[210px] rounded-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] py-1.5 border border-white/10 overflow-hidden">
+            {/* Red top accent */}
+            <div className="h-[2px] bg-gradient-to-r from-[#C0392B] to-transparent mx-3 mb-1.5 rounded-full" />
             {category.children!.map((child) => (
               <Link
                 key={child.id}
                 href={`/category/${child.slug}`}
-                className="block px-4 py-2.5 text-sm font-bangla hover:bg-gray-800 transition whitespace-nowrap"
+                className="flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-white hover:text-white hover:bg-white/10 transition-all duration-150 whitespace-nowrap group"
               >
+                <span className="w-1.5 h-1.5 rounded-full bg-white/40 group-hover:bg-white group-hover:scale-125 transition-all flex-shrink-0" />
                 {child.name}
               </Link>
             ))}
