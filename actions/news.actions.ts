@@ -30,3 +30,24 @@ export async function getNewsDetails(slug: string) {
     return null;
   }
 }
+export async function getNewsForSitemap() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/news/sitemap`,
+      {
+        next: { tags: [`news-sitemap`] }, 
+      }
+    );
+    if (!res.ok) {
+      throw new Error(`Failed to fetch news for sitemap`);
+    }
+    const responseBody = await res.json();
+    if (responseBody.success && responseBody.data) {
+      return responseBody.data; 
+    }
+  }
+  catch (error) {
+    console.error("Error fetching news for sitemap from backend:", error);
+    return [];
+  }
+}
