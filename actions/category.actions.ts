@@ -1,4 +1,4 @@
-// src/actions/category.actions.ts
+
 "use server";
 
 import { Category, categoriesData } from "@/data/categories";
