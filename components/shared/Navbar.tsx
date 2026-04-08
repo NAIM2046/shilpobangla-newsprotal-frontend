@@ -15,7 +15,7 @@ const Navbar = ({ categories = [] }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const visibleCategories = Array.isArray(categories)
-    ? categories.slice(0, 8)
+    ? categories.slice(0, 10)
     : [];
 
   return (
