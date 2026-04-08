@@ -25,7 +25,6 @@ const importantLinks = [
   { name: "গোপনীয়তা নীতি", href: "/privacy-policy" },
   { name: "শর্তাবলী", href: "/terms-and-conditions" },
   { name: "বিজ্ঞাপন", href: "/advertise" },
-
 ];
 
 const socialPlatforms = [
@@ -143,8 +142,7 @@ const Footer = () => {
               <div className="flex items-start gap-2.5">
                 <MdLocationOn className="w-4 h-4 text-[#C0392B] mt-0.5 flex-shrink-0" />
                 <p className="text-black text-sm leading-relaxed">
-               আশুলিয়া, সাভার , ঢাকা-১৩৪৪
-                              
+                  আশুলিয়া, সাভার , ঢাকা-১৩৪৪
                 </p>
               </div>
 
@@ -187,7 +185,7 @@ const Footer = () => {
                       href="tel:+8801339540317"
                       className="text-black text-sm hover:text-[#C0392B] transition-colors"
                     >
-                     +8801339540317
+                      +8801339540317
                     </a>
                   </div>
                   <div className="flex items-center gap-2.5">
@@ -196,7 +194,7 @@ const Footer = () => {
                       href="mailto:doinikshilpobangla@gmail.com"
                       className="text-black text-sm hover:text-[#C0392B] transition-colors"
                     >
-                       doinikshilpobangla@gmail.com
+                      support@dailyshilpobangla.com
                     </a>
                   </div>
                 </div>
