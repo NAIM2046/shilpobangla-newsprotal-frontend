@@ -20,8 +20,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'img.youtube.com',
         port: '',
-        pathname: '/**', // এর মানে হলো এই ডোমেইনের যেকোনো ফোল্ডারের ছবি অ্যালাউড
+        pathname: '/**', 
       },
+     {
+        protocol: 'https',
+        hostname: 'pub-e4c77ee11db24f0da33f4c12309b140f.r2.dev',
+        port: '',
+        pathname: '/**', 
+      }
 
     ],
   },

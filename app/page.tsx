@@ -11,6 +11,7 @@ import { getHomePageData } from "@/actions/home.actions";
 // ==========================================
 export default async function Home() {
   const homePageData = await getHomePageData();
+  //console.log("Home Page Data:", homePageData);
 
   if (!homePageData) {
     return (
