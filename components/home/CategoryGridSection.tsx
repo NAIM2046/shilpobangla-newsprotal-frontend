@@ -9,7 +9,7 @@ interface CategoryGridProps {
 }
 
 // ========================
-// CategoryBlock
+// CategoryBlock Component
 // ========================
 const CategoryBlock = ({
   categoryTitle,
@@ -21,77 +21,87 @@ const CategoryBlock = ({
   if (!newsList || newsList.length === 0) return null;
 
   const featuredNews = newsList[0];
-  const gridNews = newsList.slice(1, 5);
+  const listNews = newsList.slice(1, 4);
 
   return (
     <div className="w-full flex flex-col">
-      {/* Section header */}
-      <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-[#E8E4DC]">
+      {/* 🌟 Header Section (Responsive Title) */}
+      <div className="flex items-end justify-between mb-4 pb-2 border-b-2 border-gray-200/80">
         <div className="flex items-center gap-2.5">
-          <div className="w-1 h-5 bg-[#C0392B] rounded-full" />
-          <h2 className="text-base md:text-lg font-extrabold text-[#0F0E0A] tracking-tight leading-none">
+          <div className="w-1.5 h-5 sm:h-6 bg-[#0C4A6E]" />
+          <h2 className="text-lg sm:text-xl font-bold text-[#0F0E0A] tracking-tight leading-none">
             {categoryTitle}
           </h2>
         </div>
         <Link
           href={`/category/${categoryTitle}`}
-          className="flex items-center gap-0.5 text-[11px] font-semibold text-[#C0392B] hover:text-[#96281B] transition-colors"
+          className="flex items-center gap-1 text-xs sm:text-sm font-semibold text-[#0C4A6E] hover:text-[#073655] transition-colors"
         >
           আরও
-          <ChevronRight className="w-3 h-3" />
+          <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
 
-      {/* News layout */}
-      <div className="flex gap-1 h-[220px] sm:h-[260px] md:h-[280px] lg:h-[300px]">
-        {/* Left: featured (50%) */}
+      {/* 🌟 Content Layout (Mobile: Column, Desktop: Row) */}
+      <div className="flex flex-col md:flex-row gap-6 lg:gap-8">
+        {/* =======================================
+            বাম অংশ (Featured News) - ডেস্কটপে ৬০%
+        ======================================= */}
         {featuredNews && (
-          <Link
-            href={`/news/${featuredNews.slug}`}
-            className="relative w-1/2 h-full group overflow-hidden bg-[#1a1a2e] flex-shrink-0"
-          >
-            <Image
-              src={featuredNews.image}
-              alt={featuredNews.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              sizes="(max-width: 768px) 50vw, 25vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-            {/* Left red bar */}
-            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#C0392B] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom" />
-            <div className="absolute bottom-0 left-0 w-full p-2.5 md:p-3">
-              <h3 className="text-white font-bold text-xs md:text-sm leading-snug group-hover:text-[#F5C6C0] transition-colors line-clamp-3">
+          <div className="w-full md:w-3/5 lg:w-[55%] flex flex-col gap-3">
+            <Link
+              href={`/news/${featuredNews.slug}`}
+              className="relative w-full aspect-video sm:aspect-[5/3] group overflow-hidden bg-gray-100 rounded-sm"
+            >
+              <Image
+                src={featuredNews.image}
+                alt={featuredNews.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 60vw"
+                priority
+              />
+            </Link>
+
+            <Link href={`/news/${featuredNews.slug}`} className="group mt-1">
+              <h3 className="text-[#0F0E0A] font-bold text-base sm:text-lg md:text-xl leading-snug group-hover:text-[#0C4A6E] transition-colors line-clamp-3">
                 {featuredNews.title}
               </h3>
-            </div>
-          </Link>
+            </Link>
+          </div>
         )}
 
-        {/* Right: 2x2 grid (50%) */}
-        {gridNews.length > 0 && (
-          <div className="w-1/2 grid grid-cols-2 gap-1 h-full">
-            {gridNews.map((news) => (
-              <Link
+        {/* =======================================
+            ডান অংশ (List News) - ডেস্কটপে ৪০%
+        ======================================= */}
+        {listNews.length > 0 && (
+          <div className="w-full md:w-2/5 lg:w-[45%] flex flex-col gap-4 sm:gap-5">
+            {listNews.map((news) => (
+              <div
                 key={news.id}
-                href={`/news/${news.slug}`}
-                className="relative w-full h-full group overflow-hidden bg-[#1a1a2e]"
+                className="border-b border-gray-200/60 pb-4 last:border-b-0 last:pb-0"
               >
-                <Image
-                  src={news.image}
-                  alt={news.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  sizes="(max-width: 768px) 25vw, 12vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#C0392B] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom" />
-                <div className="absolute bottom-0 left-0 w-full p-1.5 md:p-2">
-                  <h3 className="text-white font-semibold text-[9px] md:text-[11px] leading-tight group-hover:text-[#F5C6C0] transition-colors line-clamp-3">
+                <Link
+                  href={`/news/${news.slug}`}
+                  className="flex items-start justify-between gap-3 sm:gap-4 group"
+                >
+                  {/* Title (Flex-1 ensures it takes available space) */}
+                  <h3 className="flex-1 text-[#0F0E0A] font-semibold text-sm sm:text-base leading-tight group-hover:text-[#0C4A6E] transition-colors line-clamp-3">
                     {news.title}
                   </h3>
-                </div>
-              </Link>
+
+                  {/* Thumbnail Image (Fixed aspect ratio, prevents shrinking) */}
+                  <div className="relative w-[100px] sm:w-[120px] aspect-[4/3] flex-shrink-0 overflow-hidden bg-gray-100 rounded-sm">
+                    <Image
+                      src={news.image}
+                      alt={news.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100px, 120px"
+                    />
+                  </div>
+                </Link>
+              </div>
             ))}
           </div>
         )}
@@ -101,7 +111,7 @@ const CategoryBlock = ({
 };
 
 // ========================
-// Main Component
+// Main Component Wrapper
 // ========================
 export default function CategoryGridSection({
   categoriesData,
@@ -109,8 +119,9 @@ export default function CategoryGridSection({
   if (!categoriesData || Object.keys(categoriesData).length === 0) return null;
 
   return (
-    <section className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-5 md:py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 md:gap-y-8">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      {/* প্রতিটি ক্যাটাগরি একটির নিচে একটি বসবে (ফুল উইথ) */}
+      <div className="flex flex-col gap-10 md:gap-14">
         {Object.entries(categoriesData).map(([categoryTitle, newsList]) => (
           <CategoryBlock
             key={categoryTitle}

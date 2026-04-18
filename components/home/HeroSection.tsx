@@ -109,7 +109,7 @@ export default function HeroSection({ heroData }: HeroSectionProps) {
   const bottomCenterNews2 = sideNews[3];
 
   return (
-    <section className="max-w-7xl mx-auto px-0 sm:px-4 md:px-6 lg:px-8 py-0 sm:py-5 md:py-6">
+    <section className="max-w-[1280px] mx-auto px-0 sm:px-4 md:px-6 lg:px-8 py-0 sm:py-5 md:py-6">
       <div className="flex flex-col gap-0 sm:gap-3 md:gap-4">
         {/* ── Mobile lead image (full bleed) ── */}
         <div className="block md:hidden">
