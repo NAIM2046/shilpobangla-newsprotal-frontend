@@ -18,17 +18,21 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: 22
           script: |
+            # 💡 ১. স্ক্রিপ্টে কোনো এরর হলে যেন সাথে সাথে বন্ধ হয়ে যায় এবং Failed দেখায়
+            set -e 
 
             cd /var/www/shilpobangla-newsprotal-frontend
 
+            # 💡 ২. লোকাল কোনো চেঞ্জ বা কনফ্লিক্ট থাকলে তা ইগনোর করে ফোর্স আপডেট করবে
+            git fetch origin main
+            git reset --hard origin/main
 
-            git pull origin main
-
-
+            # ডিপেন্ডেন্সি ইন্সটল
             npm install
 
-
+            # প্রজেক্ট বিল্ড
             npm run build
 
-
+            # সার্ভার রিস্টার্ট
             pm2 restart shilpobangla-frontend
+            pm2 save
