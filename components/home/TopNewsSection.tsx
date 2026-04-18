@@ -45,16 +45,12 @@ const SidebarListItem = ({
     href={`/news/${news.slug}`}
     className="flex items-center gap-2.5 group py-2 border-b border-[#F0EDE7] last:border-0 last:pb-0"
   >
-    {/* Rank number */}
-    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#C0392B] text-white text-[10px] font-bold flex items-center justify-center">
-      {index + 1}
-    </span>
     <div className="flex-shrink-0 overflow-hidden rounded-sm bg-[#E8E4DC]">
       <Image
         src={news.image}
         alt={news.title}
-        width={52}
-        height={36}
+        width={55}
+        height={40}
         className="object-cover w-[52px] h-[36px]"
       />
     </div>
