@@ -24,6 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const news = await getNewsDetails(slug);
 
+  // আপনার ওয়েবসাইটের মূল ডোমেইন
+  const baseUrl = "https://dailyshilpobangla.com";
+
   if (!news) {
     return {
       title: "খবর পাওয়া যায়নি",
@@ -33,21 +36,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const metaTitle = news.seoMeta?.meta_title || news.title;
   const metaDescription = news.excerpt || "বিস্তারিত জানতে খবরটি পড়ুন";
-  const metaImage =
+
+  // ১. Image URL অবশ্যই Absolute (https://...) হতে হবে
+  let metaImage =
     news.seoMeta?.og_image || news.image || "/default-news-image.jpg";
+  if (!metaImage.startsWith("http")) {
+    metaImage = `${baseUrl}${metaImage.startsWith("/") ? "" : "/"}${metaImage}`;
+  }
 
   return {
+    metadataBase: new URL(baseUrl), // ২. Next.js এর জন্য metadataBase সেট করা
     title: metaTitle,
     description: metaDescription,
     keywords: news.seoMeta?.keywords || [],
     openGraph: {
       title: metaTitle,
       description: metaDescription,
-      url: `https://dailyshilpobangla.com/news/${news.slug}`,
+      url: `/news/${news.slug || slug}`, // metadataBase থাকায় এখানে শুধু relative path দিলেই হবে
       siteName: "দৈনিক শিল্পবাংলা",
       images: [
         {
-          url: metaImage,
+          url: metaImage, // এখন এটি নিশ্চিতভাবে একটি Absolute URL
           width: 1200,
           height: 630,
           alt: news.imageAlt || news.title,
@@ -56,13 +65,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: "bn_BD",
       type: "article",
       publishedTime: news.publishedAt,
-      authors: [news.author?.name],
+      authors: news.author?.name ? [news.author.name] : ["দৈনিক শিল্পবাংলা"],
     },
     twitter: {
       card: "summary_large_image",
       title: metaTitle,
       description: metaDescription,
-      images: [metaImage],
+      images: [metaImage], // Twitter এর জন্যও Absolute URL
     },
   };
 }
@@ -73,6 +82,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function NewsDetailsPage({ params }: Props) {
   const { slug } = await params;
   const news = await getNewsDetails(slug);
+
+  //console.log("Fetched news details:", news); // Debugging log
 
   const jsonLd = {
     "@context": "https://schema.org",
